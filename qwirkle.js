@@ -93,10 +93,7 @@ window.addEventListener('mousemove', e => {
     });
     cursor.last = { i: ci, j: cj };
 });
-window.addEventListener('mousedown', () => {
-    cursor.square = bag.pop()
-    console.log(cursor.last);
-});
+window.addEventListener('mousedown', () => {});
 
 import { hand } from "./hand.js";
 const hands = [];
