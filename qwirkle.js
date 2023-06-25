@@ -59,16 +59,31 @@ function shuffle(array) {
 
     return array;
 }
+bag.draw = () => {
+    ctx.font = '24px sans-serif';
+    ctx.fillStyle = 'black 50%';
+    ctx.fillText(bag.length, 20, 40);
+}
+bag.update = () => {};
+cnv.entities.push(bag);
 shuffle(bag);
 
 const cursor = {};
 cursor.square = { move: () => {} };
-window.addEventListener('mousemove', e => {
-    const [cx, cy] = [
-        Math.round(e.offsetX/square.default_size)*square.default_size,
-        Math.round(e.offsetY/square.default_size)*square.default_size,
-    ];
-    cursor.square.move({ x: cx, y: cy });
-});
+cursor.last   = { i: -1, j: -1 };
 
-window.addEventListener('mousedown', () => cursor.square = bag.pop());
+window.addEventListener('mousemove', e => {
+    const [ci, cj] = [
+        Math.round(e.offsetX/square.default_size),
+        Math.round(e.offsetY/square.default_size),
+    ];
+    cursor.square.move({
+        x: ci*square.default_size,
+        y: cj*square.default_size
+    });
+    cursor.last = { i: ci, j: cj };
+});
+window.addEventListener('mousedown', () => {
+    cursor.square = bag.pop()
+    console.log(cursor.last);
+});
