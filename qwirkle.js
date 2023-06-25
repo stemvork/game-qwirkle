@@ -87,6 +87,10 @@ cursor.get_pos = cc => {
 }
 console.log(cursor.last);
 cursor.from   = (_square) => {
+    if(hands.selectedTile !== null) {
+        cnv.entities.pop();
+        cnv.entities.pop();
+    }
     const new_pos = cursor.get_pos(cursor.last);
     cursor.square = _square.copy(new_pos);
 }
@@ -102,13 +106,11 @@ window.addEventListener('mousemove', e => {
     cursor.last = { i: ci, j: cj };
 });
 window.addEventListener('mousedown', () => {
-    if(hands.selectedTile ?? 'null' === 'null') return;
+    if(hands.selectedTile === null) return;
     const new_pos = cursor.get_pos(cursor.last);
     board.tiles.push(cursor.square.copy(new_pos));
     const new_tile = bag.pop();
     hands[hands.current].tiles[hands.selectedTile] = new_tile;
-    console.log(hands[hands.current].tiles);
-    // BUG: changing selectedTile also "places" a tile?
     cursor.from(new_tile);
 });
 
