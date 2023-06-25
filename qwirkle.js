@@ -34,3 +34,7 @@ const first_square = new square(cnv, 'circle');
 first_square.pos = cnv.center;
 const second_square = new square(cnv, 'flower');
 second_square.pos = { x: cnv.center.x, y: cnv.center.y + 50 };
+const third_square = new square(cnv, 'star4');
+third_square.pos = { x: cnv.center.x, y: cnv.center.y + 100 };
+const fourth_square = new square(cnv, 'star8');
+fourth_square.pos = { x: cnv.center.x, y: cnv.center.y + 150 };
