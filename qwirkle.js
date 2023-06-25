@@ -107,6 +107,8 @@ window.addEventListener('mousedown', () => {
     board.tiles.push(cursor.square.copy(new_pos));
     const new_tile = bag.pop();
     hands[hands.current].tiles[hands.selectedTile] = new_tile;
+    console.log(hands[hands.current].tiles);
+    // BUG: changing selectedTile also "places" a tile?
     cursor.from(new_tile);
 });
 
