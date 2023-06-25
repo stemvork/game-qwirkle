@@ -1,7 +1,9 @@
+// Set up the canvas
 document.body.style.margin = '0';
 const root = document.querySelector('#root');
 const cnv = document.createElement('canvas');
 const ctx = cnv.getContext('2d');
+cnv.ctx = ctx;
 root.appendChild(cnv);
 
 cnv.bgColor = 'moccasin';
@@ -24,18 +26,8 @@ function draw() {
 }
 window.requestAnimationFrame(draw);
 
-const centerDot = {};
-centerDot.radius = 5;
-centerDot.color = 'red'
-centerDot.update = () => { centerDot.pos = cnv.center; }
-centerDot.draw = () => {
-    ctx.beginPath();
-    ctx.arc(centerDot.pos.x, centerDot.pos.y, centerDot.radius, 0, 2*Math.PI);
-    ctx.fillStyle = centerDot.color;
-    ctx.fill();
-}
-cnv.entities.push(centerDot);
-draw();
+import { centerDot } from "./center_dot.js";
+const center_dot = new centerDot(cnv);
 
 function circle(color, x, y, r) {
     ctx.fillStyle = color;
@@ -105,5 +97,5 @@ function newSquare(symbolType='circle', symbolColor='red') {
 }
 const square = newSquare('flower');
 square.pos = cnv.center;
-cnv.entities.push(square);
+// cnv.entities.push(square);
 draw();
