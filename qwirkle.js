@@ -90,6 +90,7 @@ window.addEventListener('mousedown', () => {
 
 import { hand } from "./hand.js";
 const hands = [];
+hands.current = 0;
 hands.positions = [
     { x: 50, y: cnv.height - 75 },
     { x: 50, y: cnv.height - 25 },
@@ -104,3 +105,16 @@ hands.draw = () => {
     ctx.fillText(1, hands.positions[1].x - 45, hands.positions[1].y + 7);
 }
 cnv.entities.push(hands);
+
+const scoreboard = {};
+scoreboard.update = () => {};
+scoreboard.draw = () => {
+    ctx.fillStyle = '#000000cc';
+    ctx.fillText(`Score: ${hands[0].score}`,
+       hands.positions[0].x + 282,
+       hands.positions[0].y + 7);
+    ctx.fillText(`Score: ${hands[1].score}`,
+       hands.positions[1].x + 282,
+       hands.positions[1].y + 7);
+};
+cnv.entities.push(scoreboard);

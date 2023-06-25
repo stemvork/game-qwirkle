@@ -6,6 +6,7 @@ export class hand {
 
         this.pos = pos;
         this.bag = bag;
+        this.score = 0;
         this.tiles = [];
         for(let i=0; i<6; i++) {
             this.tiles.push(bag.pop());
