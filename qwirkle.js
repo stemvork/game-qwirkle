@@ -61,7 +61,7 @@ function shuffle(array) {
 }
 bag.draw = () => {
     ctx.font = '24px sans-serif';
-    ctx.fillStyle = 'black 50%';
+    ctx.fillStyle = '#000000cc';
     ctx.fillText(bag.length, 20, 40);
 }
 bag.update = () => {};
@@ -90,12 +90,12 @@ window.addEventListener('mousedown', () => {
 
 // import { hand } from "./hand.js";
 class hand {
-    constructor(cnv, bag) {
+    constructor(cnv, bag, pos = { x: 25, y: 25 }) {
         this.cnv = cnv;
         this.ctx = ctx;
         this.cnv.entities.push(this);
 
-        this.pos = { x: 25, y: 25 };
+        this.pos = pos;
         this.bag = bag;
         this.tiles = [];
         for(let i=0; i<6; i++) {
@@ -120,5 +120,18 @@ class hand {
         this.tiles.map(t => t.draw());
     }
 }
-const _hand = new hand(cnv, bag);
-_hand.move({ x: 25, y: cnv.height - 25 })
+const hands = [];
+hands.positions = [
+    { x: 50, y: cnv.height - 75 },
+    { x: 50, y: cnv.height - 25 },
+]
+hands.push(new hand(cnv, bag, hands.positions[0]));
+hands.push(new hand(cnv, bag, hands.positions[1]));
+hands.update = () => {};
+hands.draw = () => {
+    ctx.font = '24px sans-serif';
+    ctx.fillStyle = '#000000cc';
+    ctx.fillText(0, hands.positions[0].x - 45, hands.positions[0].y + 7);
+    ctx.fillText(1, hands.positions[1].x - 45, hands.positions[1].y + 7);
+}
+cnv.entities.push(hands);
