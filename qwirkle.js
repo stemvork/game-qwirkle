@@ -37,13 +37,13 @@ centerDot.draw = () => {
 cnv.entities.push(centerDot);
 draw();
 
-function newSquare() {
+function newSquare(symbolType='circle', symbolColor='red') {
     const square = {};
     square.pos = { x: 0, y: 0 };
     square.size = 50;
     square.bgColor = 'black';
-    square.symbolType = 'circle';
-    square.symbolColor = 'red';
+    square.symbolType = symbolType;
+    square.symbolColor = symbolColor;
     square.symbolSize = square.size * 0.38;
     square.update = () => {};
     square.draw = () => {
@@ -56,13 +56,31 @@ function newSquare() {
         );
 
         ctx.fillStyle = square.symbolColor;
-        ctx.beginPath();
-        ctx.arc(square.pos.x, square.pos.y, square.symbolSize, 0, 2*Math.PI);
-        ctx.fill();
+        if(square.symbolType === 'circle') {
+            ctx.beginPath();
+            ctx.arc(square.pos.x, square.pos.y, square.symbolSize, 0, 2*Math.PI);
+            ctx.fill();
+        } else if(square.symbolType === 'flower') {
+            ctx.beginPath();
+            ctx.arc(square.pos.x - square.size/4, square.pos.y, square.symbolSize / 2, 0, 2*Math.PI);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(square.pos.x + square.size/4, square.pos.y, square.symbolSize / 2, 0, 2*Math.PI);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(square.pos.x, square.pos.y - square.size/4, square.symbolSize / 2, 0, 2*Math.PI);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(square.pos.x, square.pos.y + square.size/4, square.symbolSize / 2, 0, 2*Math.PI);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(square.pos.x, square.pos.y, square.symbolSize / 2, 0, 2*Math.PI);
+            ctx.fill();
+        }
     }
     return square;
 }
-const square = newSquare();
+const square = newSquare('flower');
 square.pos = cnv.center;
 cnv.entities.push(square);
 draw();
