@@ -64,7 +64,11 @@ shuffle(bag);
 const cursor = {};
 cursor.square = { move: () => {} };
 window.addEventListener('mousemove', e => {
-    cursor.square.move({ x: e.offsetX, y: e.offsetY });
+    const [cx, cy] = [
+        Math.round(e.offsetX/square.default_size)*square.default_size,
+        Math.round(e.offsetY/square.default_size)*square.default_size,
+    ];
+    cursor.square.move({ x: cx, y: cy });
 });
 
 window.addEventListener('mousedown', () => cursor.square = bag.pop());

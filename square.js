@@ -1,8 +1,9 @@
 import { symbol } from "./symbol.js";
 export class square {
+    static default_size = 50;
     constructor(cnv, symbolType='circle', symbolColor='red') {
         this.pos = { x: 0, y: 0 };
-        this.size = 50;
+        this.size = square.default_size;
         this.bgColor = 'black';
         this.symbol = new symbol(cnv, symbolType, symbolColor);
 
