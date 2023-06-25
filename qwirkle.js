@@ -42,3 +42,19 @@ const fifth_square = new square(cnv, 'diamond');
 fifth_square.pos = { x: cnv.center.x, y: cnv.center.y + 100 };
 const sixth_square = new square(cnv, 'square');
 sixth_square.pos = { x: cnv.center.x, y: cnv.center.y + 150 };
+
+const types = ['square', 'circle', 'diamond', 'flower', 'star4', 'star8'];
+const colors = ['red', 'yellow', 'orange', 'green', 'blue', 'purple'];
+const squares = [];
+for(let i=0; i<6; i++) {
+    for(let j=0; j<6; j++) {
+        for(let k=0; k<3; k++) {
+            const _square = new square(cnv, types[j], colors[i]);
+            _square.pos = {
+                x: cnv.center.x - 100 + 50*i,
+                y: cnv.center.y - 100 + 50*j
+            };
+            squares.push(_square);
+        }
+    }
+}
