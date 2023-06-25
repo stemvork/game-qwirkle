@@ -37,15 +37,60 @@ centerDot.draw = () => {
 cnv.entities.push(centerDot);
 draw();
 
+function circle(color, x, y, r) {
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, 2*Math.PI);
+    ctx.fill();
+}
+function newSymbol(type='circle', color='red') {
+    const symbol = {};
+    symbol.pos = { x: 0, y: 0 };
+    symbol.size = 50;
+    symbol.type = type;
+    symbol.color = color;
+    symbol.update = (pos, size) => {
+        symbol.pos = pos;
+        symbol.size = size;
+    }
+    symbol.draw = () => {
+        if(symbol.type === 'circle') {
+            circle(symbol.color, symbol.pos.x, symbol.pos.y, symbol.size * 0.38);
+        } else if(symbol.type === 'flower') {
+            circle(symbol.color,
+                symbol.pos.x - symbol.size / 4,
+                symbol.pos.y,
+                symbol.size * 0.17);
+            circle(symbol.color,
+                symbol.pos.x + symbol.size / 4,
+                symbol.pos.y,
+                symbol.size * 0.17);
+            circle(symbol.color,
+                symbol.pos.x,
+                symbol.pos.y - symbol.size / 4,
+                symbol.size * 0.17);
+            circle(symbol.color,
+                symbol.pos.x,
+                symbol.pos.y + symbol.size / 4,
+                symbol.size * 0.17);
+            circle(symbol.color,
+                symbol.pos.x,
+                symbol.pos.y,
+                symbol.size * 0.17);
+        }
+    }
+    return symbol;
+}
 function newSquare(symbolType='circle', symbolColor='red') {
     const square = {};
     square.pos = { x: 0, y: 0 };
     square.size = 50;
     square.bgColor = 'black';
-    square.symbolType = symbolType;
-    square.symbolColor = symbolColor;
-    square.symbolSize = square.size * 0.38;
-    square.update = () => {};
+    square.symbol = newSymbol('flower', 'red');
+    square.symbol.update(square.pos, square.size);
+    square.update = () => {
+        square.symbol.update(square.pos, square.size);
+    };
     square.draw = () => {
         ctx.fillStyle = square.bgColor;
         ctx.fillRect(
@@ -54,29 +99,7 @@ function newSquare(symbolType='circle', symbolColor='red') {
             square.size,
             square.size
         );
-
-        ctx.fillStyle = square.symbolColor;
-        if(square.symbolType === 'circle') {
-            ctx.beginPath();
-            ctx.arc(square.pos.x, square.pos.y, square.symbolSize, 0, 2*Math.PI);
-            ctx.fill();
-        } else if(square.symbolType === 'flower') {
-            ctx.beginPath();
-            ctx.arc(square.pos.x - square.size/4, square.pos.y, square.symbolSize / 2, 0, 2*Math.PI);
-            ctx.fill();
-            ctx.beginPath();
-            ctx.arc(square.pos.x + square.size/4, square.pos.y, square.symbolSize / 2, 0, 2*Math.PI);
-            ctx.fill();
-            ctx.beginPath();
-            ctx.arc(square.pos.x, square.pos.y - square.size/4, square.symbolSize / 2, 0, 2*Math.PI);
-            ctx.fill();
-            ctx.beginPath();
-            ctx.arc(square.pos.x, square.pos.y + square.size/4, square.symbolSize / 2, 0, 2*Math.PI);
-            ctx.fill();
-            ctx.beginPath();
-            ctx.arc(square.pos.x, square.pos.y, square.symbolSize / 2, 0, 2*Math.PI);
-            ctx.fill();
-        }
+        square.symbol.draw();
     }
     return square;
 }
