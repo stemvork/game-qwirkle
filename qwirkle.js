@@ -31,10 +31,14 @@ window.requestAnimationFrame(draw);
 
 import { square } from "./square.js";
 const first_square = new square(cnv, 'circle');
-first_square.pos = cnv.center;
+first_square.pos = { x: cnv.center.x, y: cnv.center.y - 100 };
 const second_square = new square(cnv, 'flower');
-second_square.pos = { x: cnv.center.x, y: cnv.center.y + 50 };
+second_square.pos = { x: cnv.center.x, y: cnv.center.y - 50 };
 const third_square = new square(cnv, 'star4');
-third_square.pos = { x: cnv.center.x, y: cnv.center.y + 100 };
+third_square.pos = { x: cnv.center.x, y: cnv.center.y + 0 };
 const fourth_square = new square(cnv, 'star8');
-fourth_square.pos = { x: cnv.center.x, y: cnv.center.y + 150 };
+fourth_square.pos = { x: cnv.center.x, y: cnv.center.y + 50 };
+const fifth_square = new square(cnv, 'diamond');
+fifth_square.pos = { x: cnv.center.x, y: cnv.center.y + 100 };
+const sixth_square = new square(cnv, 'square');
+sixth_square.pos = { x: cnv.center.x, y: cnv.center.y + 150 };

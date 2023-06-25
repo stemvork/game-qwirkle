@@ -65,6 +65,24 @@ export class symbol {
                 this.ctx.lineTo(point[0], point[1]);
             }
             this.ctx.fill();
+        } else if(this.type === 'diamond') {
+            const asize = this.size * 0.38;
+            this.ctx.fillStyle = this.color;
+            this.ctx.beginPath();
+            this.ctx.moveTo(this.pos.x - asize, this.pos.y);
+            this.ctx.lineTo(this.pos.x, this.pos.y - asize);
+            this.ctx.lineTo(this.pos.x + asize, this.pos.y);
+            this.ctx.lineTo(this.pos.x, this.pos.y + asize);
+            this.ctx.fill();
+        } else if(this.type === 'square') {
+            const asize = this.size * 0.34;
+            this.ctx.fillStyle = this.color;
+            this.ctx.beginPath();
+            this.ctx.moveTo(this.pos.x - asize, this.pos.y - asize);
+            this.ctx.lineTo(this.pos.x + asize, this.pos.y - asize);
+            this.ctx.lineTo(this.pos.x + asize, this.pos.y + asize);
+            this.ctx.lineTo(this.pos.x - asize, this.pos.y + asize);
+            this.ctx.fill();
         }
     }
 }
