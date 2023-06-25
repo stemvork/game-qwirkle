@@ -98,21 +98,32 @@ hands.positions = [
 hands.push(new hand(cnv, bag, hands.positions[0]));
 hands.push(new hand(cnv, bag, hands.positions[1]));
 hands.update = () => {};
+hands.next = () => {
+    hands.current = hands.current < hands.length - 1 ? hands.current + 1 : 0;
+}
 hands.draw = () => {
     ctx.font = '24px sans-serif';
-    ctx.fillStyle = '#000000cc';
+    ctx.fillStyle = hands.current !== 0 ? '#000000cc' : '#ff0000cc';
     ctx.fillText(0, hands.positions[0].x - 45, hands.positions[0].y + 7);
+    ctx.fillStyle = hands.current !== 1 ? '#000000cc' : '#ff0000cc';
     ctx.fillText(1, hands.positions[1].x - 45, hands.positions[1].y + 7);
 }
 cnv.entities.push(hands);
+window.addEventListener('keydown', e => {
+    if(e.key === ' ') {
+        hands.next();
+    }
+});
 
 const scoreboard = {};
 scoreboard.update = () => {};
 scoreboard.draw = () => {
     ctx.fillStyle = '#000000cc';
+    ctx.fillStyle = hands.current !== 0 ? '#000000cc' : '#ff0000cc';
     ctx.fillText(`Score: ${hands[0].score}`,
        hands.positions[0].x + 282,
        hands.positions[0].y + 7);
+    ctx.fillStyle = hands.current !== 1 ? '#000000cc' : '#ff0000cc';
     ctx.fillText(`Score: ${hands[1].score}`,
        hands.positions[1].x + 282,
        hands.positions[1].y + 7);
