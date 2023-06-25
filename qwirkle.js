@@ -70,8 +70,18 @@ shuffle(bag);
 
 const cursor = {};
 cursor.square = { move: () => {} };
-cursor.last   = { i: -1, j: -1 };
-
+cursor.last   = {
+    i: Math.round(cnv.width /2 / square.default_size),
+    j: Math.round(cnv.height /2 / square.default_size)
+};
+console.log(cursor.last);
+cursor.from   = (_square) => {
+    cursor.square = new square(cnv, _square.type, _square.color);
+    cursor.square.move({
+        x: cursor.last.i * _square.size,
+        y: cursor.last.j * _square.size
+    });
+}
 window.addEventListener('mousemove', e => {
     const [ci, cj] = [
         Math.round(e.offsetX/square.default_size),
@@ -112,6 +122,18 @@ cnv.entities.push(hands);
 window.addEventListener('keydown', e => {
     if(e.key === ' ') {
         hands.next();
+    } else if(e.key === '1') {
+        cursor.from(hands[hands.current].tiles[0]);
+    } else if(e.key === '2') {
+        cursor.from(hands[hands.current].tiles[1]);
+    } else if(e.key === '3') {
+        cursor.from(hands[hands.current].tiles[2]);
+    } else if(e.key === '4') {
+        cursor.from(hands[hands.current].tiles[3]);
+    } else if(e.key === '5') {
+        cursor.from(hands[hands.current].tiles[4]);
+    } else if(e.key === '6') {
+        cursor.from(hands[hands.current].tiles[5]);
     }
 });
 

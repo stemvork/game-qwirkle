@@ -4,6 +4,8 @@ export class square {
     constructor(cnv, symbolType='circle', symbolColor='red') {
         this.pos = { x: 0, y: 0 };
         this.size = square.default_size;
+        this.type = symbolType;
+        this.color = symbolColor;
         this.bgColor = 'black';
         this.symbol = new symbol(cnv, symbolType, symbolColor);
 
