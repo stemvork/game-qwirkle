@@ -68,19 +68,27 @@ bag.update = () => {};
 cnv.entities.push(bag);
 shuffle(bag);
 
+const board = {};
+board.tiles = [];
+board.update = () => {};
+board.draw = () => { board.tiles.map(t => t.draw()); };
+
 const cursor = {};
 cursor.square = { move: () => {} };
 cursor.last   = {
     i: Math.round(cnv.width /2 / square.default_size),
     j: Math.round(cnv.height /2 / square.default_size)
 };
+cursor.get_pos = cc => {
+    return {
+        x: cc.i * square.default_size,
+        y: cc.j * square.default_size
+    };
+}
 console.log(cursor.last);
 cursor.from   = (_square) => {
-    cursor.square = new square(cnv, _square.type, _square.color);
-    cursor.square.move({
-        x: cursor.last.i * _square.size,
-        y: cursor.last.j * _square.size
-    });
+    const new_pos = cursor.get_pos(cursor.last);
+    cursor.square = _square.copy(new_pos);
 }
 window.addEventListener('mousemove', e => {
     const [ci, cj] = [
@@ -93,11 +101,19 @@ window.addEventListener('mousemove', e => {
     });
     cursor.last = { i: ci, j: cj };
 });
-window.addEventListener('mousedown', () => {});
+window.addEventListener('mousedown', () => {
+    if(hands.selectedTile ?? 'null' === 'null') return;
+    const new_pos = cursor.get_pos(cursor.last);
+    board.tiles.push(cursor.square.copy(new_pos));
+    const new_tile = bag.pop();
+    hands[hands.current].tiles[hands.selectedTile] = new_tile;
+    cursor.from(new_tile);
+});
 
 import { hand } from "./hand.js";
 const hands = [];
 hands.current = 0;
+hands.selectedTile = null;
 hands.positions = [
     { x: 50, y: cnv.height - 75 },
     { x: 50, y: cnv.height - 25 },
@@ -121,16 +137,22 @@ window.addEventListener('keydown', e => {
         hands.next();
     } else if(e.key === '1') {
         cursor.from(hands[hands.current].tiles[0]);
+        hands.selectedTile = 0;
     } else if(e.key === '2') {
         cursor.from(hands[hands.current].tiles[1]);
+        hands.selectedTile = 1;
     } else if(e.key === '3') {
         cursor.from(hands[hands.current].tiles[2]);
+        hands.selectedTile = 2;
     } else if(e.key === '4') {
         cursor.from(hands[hands.current].tiles[3]);
+        hands.selectedTile = 3;
     } else if(e.key === '5') {
         cursor.from(hands[hands.current].tiles[4]);
+        hands.selectedTile = 4;
     } else if(e.key === '6') {
         cursor.from(hands[hands.current].tiles[5]);
+        hands.selectedTile = 5;
     }
 });
 

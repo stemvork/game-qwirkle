@@ -17,6 +17,11 @@ export class square {
         this.pos = pos;
         this.symbol.pos = pos;
     }
+    copy(new_pos=null) {
+        const _square = new square(this.cnv, this.type, this.color);
+        if(new_pos) _square.move(new_pos);
+        return _square;
+    }
     update() {
         this.symbol.update(this.pos, this.size);
     }
