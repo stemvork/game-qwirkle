@@ -30,31 +30,41 @@ window.requestAnimationFrame(draw);
 // const center_dot = new centerDot(cnv);
 
 import { square } from "./square.js";
-const first_square = new square(cnv, 'circle');
-first_square.pos = { x: cnv.center.x, y: cnv.center.y - 100 };
-const second_square = new square(cnv, 'flower');
-second_square.pos = { x: cnv.center.x, y: cnv.center.y - 50 };
-const third_square = new square(cnv, 'star4');
-third_square.pos = { x: cnv.center.x, y: cnv.center.y + 0 };
-const fourth_square = new square(cnv, 'star8');
-fourth_square.pos = { x: cnv.center.x, y: cnv.center.y + 50 };
-const fifth_square = new square(cnv, 'diamond');
-fifth_square.pos = { x: cnv.center.x, y: cnv.center.y + 100 };
-const sixth_square = new square(cnv, 'square');
-sixth_square.pos = { x: cnv.center.x, y: cnv.center.y + 150 };
-
 const types = ['square', 'circle', 'diamond', 'flower', 'star4', 'star8'];
 const colors = ['red', 'gold', 'darkorange', 'forestgreen', 'royalblue', 'slateblue'];
-const squares = [];
+const bag = [];
 for(let i=0; i<6; i++) {
     for(let j=0; j<6; j++) {
         for(let k=0; k<3; k++) {
             const _square = new square(cnv, types[j], colors[i]);
-            _square.pos = {
-                x: cnv.center.x - 100 + 50*i,
-                y: cnv.center.y - 100 + 50*j
-            };
-            squares.push(_square);
+            _square.pos = { x: -(2**32), y: -(2**32) };
+            bag.push(_square);
         }
     }
 }
+function shuffle(array) {
+    var m = array.length, t, i;
+
+    // While there remain elements to shuffle…
+    while (m) {
+
+        // Pick a remaining element…
+        i = Math.floor(Math.random() * m--);
+
+        // And swap it with the current element.
+        t = array[m];
+        array[m] = array[i];
+        array[i] = t;
+    }
+
+    return array;
+}
+shuffle(bag);
+
+const cursor = {};
+cursor.square = { move: () => {} };
+window.addEventListener('mousemove', e => {
+    cursor.square.move({ x: e.offsetX, y: e.offsetY });
+});
+
+window.addEventListener('mousedown', () => cursor.square = bag.pop());

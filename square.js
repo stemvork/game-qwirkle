@@ -10,6 +10,10 @@ export class square {
         this.ctx = cnv.ctx;
         this.cnv.entities.push(this);
     }
+    move(pos) {
+        this.pos = pos;
+        this.symbol.pos = pos;
+    }
     update() {
         this.symbol.update(this.pos, this.size);
     }
