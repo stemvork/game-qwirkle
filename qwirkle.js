@@ -36,3 +36,33 @@ centerDot.draw = () => {
 }
 cnv.entities.push(centerDot);
 draw();
+
+function newSquare() {
+    const square = {};
+    square.pos = { x: 0, y: 0 };
+    square.size = 50;
+    square.bgColor = 'black';
+    square.symbolType = 'circle';
+    square.symbolColor = 'red';
+    square.symbolSize = square.size * 0.38;
+    square.update = () => {};
+    square.draw = () => {
+        ctx.fillStyle = square.bgColor;
+        ctx.fillRect(
+            square.pos.x - square.size/2,
+            square.pos.y - square.size/2,
+            square.size,
+            square.size
+        );
+
+        ctx.fillStyle = square.symbolColor;
+        ctx.beginPath();
+        ctx.arc(square.pos.x, square.pos.y, square.symbolSize, 0, 2*Math.PI);
+        ctx.fill();
+    }
+    return square;
+}
+const square = newSquare();
+square.pos = cnv.center;
+cnv.entities.push(square);
+draw();
