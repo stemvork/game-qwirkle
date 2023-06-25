@@ -26,76 +26,11 @@ function draw() {
 }
 window.requestAnimationFrame(draw);
 
-import { centerDot } from "./center_dot.js";
-const center_dot = new centerDot(cnv);
+// import { centerDot } from "./center_dot.js";
+// const center_dot = new centerDot(cnv);
 
-function circle(color, x, y, r) {
-    ctx.fillStyle = color;
-    ctx.beginPath();
-    ctx.arc(x, y, r, 0, 2*Math.PI);
-    ctx.fill();
-}
-function newSymbol(type='circle', color='red') {
-    const symbol = {};
-    symbol.pos = { x: 0, y: 0 };
-    symbol.size = 50;
-    symbol.type = type;
-    symbol.color = color;
-    symbol.update = (pos, size) => {
-        symbol.pos = pos;
-        symbol.size = size;
-    }
-    symbol.draw = () => {
-        if(symbol.type === 'circle') {
-            circle(symbol.color, symbol.pos.x, symbol.pos.y, symbol.size * 0.38);
-        } else if(symbol.type === 'flower') {
-            circle(symbol.color,
-                symbol.pos.x - symbol.size / 4,
-                symbol.pos.y,
-                symbol.size * 0.17);
-            circle(symbol.color,
-                symbol.pos.x + symbol.size / 4,
-                symbol.pos.y,
-                symbol.size * 0.17);
-            circle(symbol.color,
-                symbol.pos.x,
-                symbol.pos.y - symbol.size / 4,
-                symbol.size * 0.17);
-            circle(symbol.color,
-                symbol.pos.x,
-                symbol.pos.y + symbol.size / 4,
-                symbol.size * 0.17);
-            circle(symbol.color,
-                symbol.pos.x,
-                symbol.pos.y,
-                symbol.size * 0.17);
-        }
-    }
-    return symbol;
-}
-function newSquare(symbolType='circle', symbolColor='red') {
-    const square = {};
-    square.pos = { x: 0, y: 0 };
-    square.size = 50;
-    square.bgColor = 'black';
-    square.symbol = newSymbol('flower', 'red');
-    square.symbol.update(square.pos, square.size);
-    square.update = () => {
-        square.symbol.update(square.pos, square.size);
-    };
-    square.draw = () => {
-        ctx.fillStyle = square.bgColor;
-        ctx.fillRect(
-            square.pos.x - square.size/2,
-            square.pos.y - square.size/2,
-            square.size,
-            square.size
-        );
-        square.symbol.draw();
-    }
-    return square;
-}
-const square = newSquare('flower');
-square.pos = cnv.center;
-// cnv.entities.push(square);
-draw();
+import { square } from "./square.js";
+const first_square = new square(cnv, 'circle');
+first_square.pos = cnv.center;
+const second_square = new square(cnv, 'flower');
+second_square.pos = { x: cnv.center.x, y: cnv.center.y + 50 };
