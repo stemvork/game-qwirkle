@@ -44,7 +44,7 @@ const sixth_square = new square(cnv, 'square');
 sixth_square.pos = { x: cnv.center.x, y: cnv.center.y + 150 };
 
 const types = ['square', 'circle', 'diamond', 'flower', 'star4', 'star8'];
-const colors = ['red', 'yellow', 'orange', 'green', 'blue', 'purple'];
+const colors = ['red', 'gold', 'darkorange', 'forestgreen', 'royalblue', 'slateblue'];
 const squares = [];
 for(let i=0; i<6; i++) {
     for(let j=0; j<6; j++) {
