@@ -22,6 +22,8 @@ export class game {
     nextPlayer() { this.hands.next(); }
     selectTile() {
         this.cursor.from(this.hands.hands[this.hands.current].tiles[0]);
+        this.cursor.square.move(
+            this.cursor.get_pos(this.board.highlights[0]));
         this.hands.selectedTile = 0;
     }
     keyDown(e) {
@@ -38,7 +40,9 @@ export class game {
             Math.round(e.offsetX/square.default_size),
             Math.round(e.offsetY/square.default_size),
         ];
-        this.cursor.square.move({
+        console.log('number of highlights', this.board.highlights.length);
+        let moving = this.board.highlights.some(hi => hi.i === ci && hi.j === cj);
+        if(moving) this.cursor.square.move({
             x: ci*square.default_size,
             y: cj*square.default_size
         });
@@ -54,5 +58,6 @@ export class game {
         const currentHand = this.hands.hands[this.hands.current];
         currentHand.tiles[this.hands.selectedTile] = new_tile;
         this.cursor.from(new_tile);
+        this.board.highlightNeighbors();
     }
 }
