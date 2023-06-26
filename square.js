@@ -8,6 +8,7 @@ export class square {
         this.color = symbolColor;
         this.bgColor = 'black';
         this.symbol = new symbol(cnv, symbolType, symbolColor);
+        this.hidden = false;
 
         this.cnv = cnv;
         this.ctx = cnv.ctx;
@@ -26,6 +27,7 @@ export class square {
         this.symbol.update(this.pos, this.size);
     }
     draw() {
+        if(this.hidden) return;
         this.ctx.fillStyle = this.bgColor;
         this.ctx.fillRect(
             this.pos.x - this.size/2 + 1,
