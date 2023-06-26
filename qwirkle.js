@@ -29,42 +29,33 @@ window.requestAnimationFrame(draw);
 // import { centerDot } from "./center_dot.js";
 // const center_dot = new centerDot(cnv);
 
-const game = {};
-
-import { bag } from "./bag.js";
-game.bag = new bag(cnv);
-
-import { hands } from "./hand.js";
-game.hands = new hands(cnv, game.bag);
+// Game specific logic
+import { game } from "./game.js";
+const g = new game(cnv);
 window.addEventListener('keydown', e => {
     if(e.key === ' ') {
-        game.hands.next();
+        g.hands.next();
     } else if(e.key === '1') {
-        game.cursor.from(game.hands.hands[game.hands.current].tiles[0]);
-        game.hands.selectedTile = 0;
+        g.cursor.from(g.hands.hands[g.hands.current].tiles[0]);
+        g.hands.selectedTile = 0;
     } else if(e.key === '2') {
-        game.cursor.from(game.hands.hands[game.hands.current].tiles[1]);
-        game.hands.selectedTile = 1;
+        g.cursor.from(g.hands.hands[g.hands.current].tiles[1]);
+        g.hands.selectedTile = 1;
     } else if(e.key === '3') {
-        game.cursor.from(game.hands.hands[game.hands.current].tiles[2]);
-        game.hands.selectedTile = 2;
+        g.cursor.from(g.hands.hands[g.hands.current].tiles[2]);
+        g.hands.selectedTile = 2;
     } else if(e.key === '4') {
-        game.cursor.from(game.hands.hands[game.hands.current].tiles[3]);
-        game.hands.selectedTile = 3;
+        g.cursor.from(g.hands.hands[g.hands.current].tiles[3]);
+        g.hands.selectedTile = 3;
     } else if(e.key === '5') {
-        game.cursor.from(game.hands.hands[game.hands.current].tiles[4]);
-        game.hands.selectedTile = 4;
+        g.cursor.from(g.hands.hands[g.hands.current].tiles[4]);
+        g.hands.selectedTile = 4;
     } else if(e.key === '6') {
-        game.cursor.from(game.hands.hands[game.hands.current].tiles[5]);
-        game.hands.selectedTile = 5;
+        g.cursor.from(g.hands.hands[g.hands.current].tiles[5]);
+        g.hands.selectedTile = 5;
     }
 });
 
-import { cursor } from "./cursor.js";
-game.cursor = new cursor(cnv, game.hands);
-
-import { board } from "./board.js";
-game.board = new board(cnv, game.cursor);
 
 import { square } from "./square.js";
 window.addEventListener('mousemove', e => {
@@ -72,25 +63,23 @@ window.addEventListener('mousemove', e => {
         Math.round(e.offsetX/square.default_size),
         Math.round(e.offsetY/square.default_size),
     ];
-    game.cursor.square.move({
+    g.cursor.square.move({
         x: ci*square.default_size,
         y: cj*square.default_size
     });
-    game.cursor.last = { i: ci, j: cj };
+    g.cursor.last = { i: ci, j: cj };
 });
 import { last } from "./utils.js";
 window.addEventListener('mousedown', () => {
-    if(game.hands.selectedTile === null) return;
-    if(!game.board.isConnected()) return;
-    const new_pos = game.cursor.get_pos(game.cursor.last);
-    game.board.tiles.push(game.cursor.square.copy(new_pos));
-    last(game.board.tiles).index = game.cursor.last;
-    const new_tile = game.bag.tiles.pop();
+    if(g.hands.selectedTile === null) return;
+    if(!g.board.isConnected()) return;
+    const new_pos = g.cursor.get_pos(g.cursor.last);
+    g.board.tiles.push(g.cursor.square.copy(new_pos));
+    last(g.board.tiles).index = g.cursor.last;
+    const new_tile = g.bag.tiles.pop();
     // BUG: would be easier to "change" tiles, instead of creating new
     new_tile.hidden = true;
-    game.hands.hands[game.hands.current].tiles[game.hands.selectedTile] = new_tile;
-    game.cursor.from(new_tile);
+    g.hands.hands[g.hands.current].tiles[g.hands.selectedTile] = new_tile;
+    g.cursor.from(new_tile);
 });
 
-import { scoreboard } from "./scoreboard.js";
-game.scoreboard = new scoreboard(cnv, game.hands);
