@@ -72,19 +72,35 @@ const board = {};
 board.tiles = [];
 board.update = () => {};
 board.draw = () => { board.tiles.map(t => t.draw()); };
+board.isConnected = () => {
+    console.log('board size', board.tiles.length);
+    console.log('cursor index', cursor.last);
+    if(board.tiles.length === 0) return true;
+    return board.tiles.some(tile => {
+        console.log('tile index', tile.index);
+        return (Math.abs(cursor.last.i - tile.index.i) === 1.0 &&
+        Math.abs(cursor.last.j - tile.index.j) === 0.0) ||
+        (Math.abs(cursor.last.i - tile.index.i) === 0.0 &&
+        Math.abs(cursor.last.j - tile.index.j) === 1.0)
+    });
+}
 
 const cursor = {};
 cursor.square = { move: () => {} };
-cursor.last   = {
-    i: Math.round(cnv.width /2 / square.default_size),
-    j: Math.round(cnv.height /2 / square.default_size)
-};
+cursor.get_index = pp => {
+    console.log('pp', pp);
+    return {
+        i: Math.round(pp.x / square.default_size),
+        j: Math.round(pp.y / square.default_size)
+    }
+}
 cursor.get_pos = cc => {
     return {
         x: cc.i * square.default_size,
         y: cc.j * square.default_size
     };
 }
+cursor.last   = cursor.get_index({ x: cnv.width/2, y: cnv.height/2 });
 console.log(cursor.last);
 cursor.from   = (_square) => {
     if(hands.selectedTile !== null) {
@@ -105,10 +121,13 @@ window.addEventListener('mousemove', e => {
     });
     cursor.last = { i: ci, j: cj };
 });
+import { last } from "./utils.js";
 window.addEventListener('mousedown', () => {
     if(hands.selectedTile === null) return;
+    if(!board.isConnected()) return;
     const new_pos = cursor.get_pos(cursor.last);
     board.tiles.push(cursor.square.copy(new_pos));
+    last(board.tiles).index = cursor.last;
     const new_tile = bag.pop();
     hands[hands.current].tiles[hands.selectedTile] = new_tile;
     cursor.from(new_tile);
