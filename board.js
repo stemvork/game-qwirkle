@@ -23,6 +23,7 @@ export class board {
             const pos = this.cursor.get_pos(hi);
             const size = square.default_size;
             this.ctx.fillStyle = '#cccccccc';
+            if(this.cursor.placed > 1) this.ctx.fillStyle = '#ffcc00cc';
             this.ctx.fillRect(pos.x - size/2, pos.y - size/2, size, size);
         });
     }
@@ -53,6 +54,7 @@ export class board {
             neighbors.filter(n =>
                 tiles_hashes.indexOf(this.hash_index(n)) === -1)
                      .map(n => this.highlight(n));
+            // TODO: after placing second tile, restrict highlights further
         }
     }
 }

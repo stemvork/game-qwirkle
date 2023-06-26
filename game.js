@@ -19,7 +19,10 @@ export class game {
     }
     update() {}
     draw() {}
-    nextPlayer() { this.hands.next(); }
+    nextPlayer() {
+        this.hands.next();
+        this.cursor.placed = 0;
+    }
     selectTile() {
         this.cursor.from(this.hands.hands[this.hands.current].tiles[0]);
         this.cursor.square.move(
@@ -59,5 +62,6 @@ export class game {
         currentHand.tiles[this.hands.selectedTile] = new_tile;
         this.cursor.from(new_tile);
         this.board.highlightNeighbors();
+        this.cursor.placed += 1;
     }
 }

@@ -8,6 +8,7 @@ export class cursor {
         this.hands = hands;
 
         this.square = { move: () => {} };
+        this.placed = 0;
         this.last = this.get_index({ x: cnv.width/2, y: cnv.height/2 });
     }
     update() {}
