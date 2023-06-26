@@ -51,8 +51,6 @@ export class game {
         this.board.tiles.push(this.cursor.square.copy(new_pos));
         last(this.board.tiles).index = this.cursor.last;
         const new_tile = this.bag.tiles.pop();
-        // BUG: would be easier to "change" tiles, instead of creating new
-        new_tile.hidden = true;
         const currentHand = this.hands.hands[this.hands.current];
         currentHand.tiles[this.hands.selectedTile] = new_tile;
         this.cursor.from(new_tile);

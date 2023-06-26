@@ -9,7 +9,6 @@ export class cursor {
 
         this.square = { move: () => {} };
         this.last = this.get_index({ x: cnv.width/2, y: cnv.height/2 });
-        console.log(this.last);
     }
     update() {}
     draw() {
@@ -21,7 +20,6 @@ export class cursor {
         }
     }
     get_pos(cc) {
-        console.log('cc', cc);
         return {
             x: cc.i * square.default_size,
             y: cc.j * square.default_size

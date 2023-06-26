@@ -2,6 +2,7 @@
 document.body.style.margin = '0';
 const root = document.querySelector('#root');
 const cnv = document.createElement('canvas');
+cnv.style.display = 'block';
 const ctx = cnv.getContext('2d');
 cnv.ctx = ctx;
 root.appendChild(cnv);
